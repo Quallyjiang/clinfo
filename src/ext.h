@@ -9,10 +9,16 @@
  * (otherwise, the maximum version will simply be used, but a message
  * will be printed).
  *
- * TODO: until 3.0 gets finalized, we only target 2.2 because the 3.0
- * defines etc are still changing, so users may have an older version
- * of the 3.0 headers lying around, which may prevent clinfo from being
- * compilable.
+ * This poses an interesting challenge now that 3.0 has been finalized.
+ * If we target 3.0 and the user has an older version of the header,
+ * it will complain about an unsupported target.
+ * If we target 2.2 and the user has a recent enough version of the header,
+ * then the cl_version typedef will be defined in the headers,
+ * and conflict with ours.
+ * Our solution is to target 2.2 still, but only typedef cl_version
+ * if other version-related macros have not been defined:
+ * this helps us avoiding the typedef redefinition without tripping
+ * on “intermediate age” headers.
  */
 #define CL_TARGET_OPENCL_VERSION 220
 
@@ -157,7 +163,13 @@ typedef cl_bitfield         cl_device_svm_capabilities;
 
 typedef cl_bitfield	cl_device_atomic_capabilities;
 typedef cl_bitfield	cl_device_device_enqueue_capabilities;
+
+/* See the comment about our choice for CL_TARGET_OPENCL_VERSION above
+ * for the motivation behind this check.
+ */
+#ifndef CL_MAKE_VERSION
 typedef cl_uint		cl_version;
+#endif
 
 #define CL_NAME_VERSION_MAX_NAME_SIZE 64
 
