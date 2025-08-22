@@ -5,3 +5,4 @@ cl_khr_kernel_clock https://registry.khronos.org/OpenCL/specs/3.0-unified/html/O
 
 cl_khr_command_buffer_multi_device https://registry.khronos.org/OpenCL/sdk/3.0/docs/man/html/cl_khr_command_buffer_multi_device.html
 (extension is provisional; defines have already been imported in ext.h)
+
